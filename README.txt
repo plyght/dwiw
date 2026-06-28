@@ -1,6 +1,6 @@
-dwim
+dwiw
 
-hey computer: Do What I Mean!
+hey computer: Do What I Want!
 
 Shell-agnostic overlay for native commands and natural-language intents on one line. Commands run as commands. Requests become editable proposals before execution.
 
