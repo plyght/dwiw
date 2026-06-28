@@ -3,6 +3,7 @@ export type ShellContext = {
 	history: string[];
 	lastOutput: string;
 	lastExitCode?: number;
+	memory?: string[];
 };
 
 export type BrainRequest = {

@@ -68,7 +68,6 @@ export async function createResolutionTable(
 	return {
 		commands,
 		refresh,
-		resolves: (token: string) =>
-			commands.has(token) || commands.has(token.toLowerCase()),
+		resolves: (token: string) => commands.has(token),
 	};
 }

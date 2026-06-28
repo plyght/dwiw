@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { BrainRequest, ShellContext } from "./protocol";
+import type { ShellContext } from "./protocol";
 
 export type DwimPlugin = {
 	name: string;
@@ -27,16 +27,23 @@ export async function loadPlugins(paths: string[]): Promise<DwimPlugin[]> {
 	return plugins;
 }
 
-export async function applyPromptContext(
-	request: BrainRequest,
+export async function buildContext(
+	context: ShellContext,
 	plugins: DwimPlugin[],
-) {
-	const extras: Record<string, unknown> = {};
+): Promise<ShellContext> {
+	let memory: string[] = [];
 	for (const plugin of plugins) {
-		const value = await plugin.injectContext?.(request.context);
-		if (value) extras[plugin.name] = value;
+		const value = await plugin.injectContext?.(context);
+		if (value && Array.isArray((value as { facts?: unknown }).facts))
+			memory = (value as { facts: string[] }).facts;
 	}
-	return { ...request, context: { ...request.context, extras } };
+	return {
+		cwd: context.cwd,
+		history: context.history.slice(-20).map(redact),
+		lastOutput: redact(context.lastOutput).slice(-8000),
+		lastExitCode: context.lastExitCode,
+		memory,
+	};
 }
 
 function shellContextPlugin(): DwimPlugin {

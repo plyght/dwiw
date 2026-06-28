@@ -42,7 +42,7 @@ async function proposeCommand(request: BrainRequest, options: BrainOptions) {
 					{
 						role: "user",
 						timestamp: Date.now(),
-						content: `cwd: ${request.context.cwd}\nhistory: ${request.context.history.slice(-20).join("\n")}\nlast output: ${request.context.lastOutput.slice(-4000)}\nrequest: ${request.message}`,
+						content: `cwd: ${request.context.cwd}\nmemory: ${(request.context.memory ?? []).join("; ")}\nhistory: ${request.context.history.join("\n")}\nlast output: ${request.context.lastOutput.slice(-4000)}\nrequest: ${request.message}`,
 					},
 				],
 			},
