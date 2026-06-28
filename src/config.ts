@@ -11,7 +11,7 @@ export type DwimConfig = {
 	plugins: string[];
 };
 
-const CODEX_MODEL = "gpt-5.4";
+const CODEX_MODEL = "gpt-5.4-mini";
 const ANTHROPIC_MODEL = "claude-haiku-4-5";
 
 export async function loadConfig(): Promise<DwimConfig> {
