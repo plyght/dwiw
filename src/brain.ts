@@ -14,10 +14,6 @@ export type BrainOptions = { provider?: string; model?: Model<Api> | string };
 export function createBrain(options: BrainOptions = {}): Brain {
 	return {
 		async ask(request, emit) {
-			emit({
-				type: "text",
-				text: `dwim: ${request.mode === "agent" ? "agent" : "proposal"}\n`,
-			});
 			const command = await proposeCommand(request, options);
 			emit({
 				type: "proposal",
